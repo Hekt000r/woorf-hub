@@ -7,7 +7,12 @@ import { Home, Search, Info } from "lucide-react";
 export default function Navbar() {
   const pathname = usePathname();
 
-  const isActive = (path: string) => pathname === path;
+  const isActive = (path: string) => {
+    if (path === "/search" && pathname.startsWith("/program/")) {
+      return true;
+    }
+    return pathname === path;
+  };
 
   const navItems = [
     { name: "Home", path: "/", icon: Home },

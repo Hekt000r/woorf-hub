@@ -9,8 +9,7 @@ interface ProgramCardProps {
 export default function ProgramCard({ program }: ProgramCardProps) {
   return (
     <Link 
-      href={program.link}
-      target="_blank"
+      href={`/program/${program._id}`}
       className="group relative bg-card border border-border rounded-2xl p-6 hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/5 block"
     >
       <div className="flex flex-col h-full">
