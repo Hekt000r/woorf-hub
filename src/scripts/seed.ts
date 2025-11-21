@@ -19,7 +19,7 @@ const PROGRAMS = [
     description: "The free and open productivity suite with word processor, spreadsheet, and presentation software.",
     tags: ["Office", "Productivity"],
     link: "https://www.openoffice.org/",
-    image: "https://placehold.co/200x200/0E7AC4/white?text=AOO",
+    image: "/icons/openoffice.png",
     alternativesTo: ["Microsoft Office", "Word", "Excel"],
   },
   {
@@ -27,7 +27,7 @@ const PROGRAMS = [
     description: "A comprehensive office suite for document editing and collaboration in the cloud.",
     tags: ["Office", "Productivity", "Collaboration"],
     link: "https://www.onlyoffice.com/",
-    image: "https://placehold.co/200x200/FF6F3D/white?text=OO",
+    image: "/icons/onlyoffice.png",
     alternativesTo: ["Microsoft Office", "Google Workspace"],
   },
 
@@ -53,7 +53,7 @@ const PROGRAMS = [
     description: "A professional free and open source painting program made by artists for artists.",
     tags: ["Design", "Painting", "Art"],
     link: "https://krita.org/",
-    image: "https://placehold.co/200x200/3BABFF/white?text=KR",
+    image: "/icons/krita.png",
     alternativesTo: ["Adobe Photoshop", "Corel Painter"],
   },
 
@@ -89,7 +89,7 @@ const PROGRAMS = [
     description: "Free and open source software for video recording and live streaming.",
     tags: ["Video", "Streaming", "Recording"],
     link: "https://obsproject.com/",
-    image: "https://placehold.co/200x200/302E31/white?text=OBS",
+    image: "/icons/obs.png",
     alternativesTo: ["XSplit", "Streamlabs"],
   },
   {
@@ -97,7 +97,7 @@ const PROGRAMS = [
     description: "A free, open source, cross-platform video editor.",
     tags: ["Video", "Editing"],
     link: "https://shotcut.org/",
-    image: "https://placehold.co/200x200/3E4E5E/white?text=SC",
+    image: "/icons/shotcut.png",
     alternativesTo: ["Adobe Premiere Pro", "Final Cut Pro"],
   },
   {
@@ -105,7 +105,7 @@ const PROGRAMS = [
     description: "A powerful free and open source cross-platform video editing program.",
     tags: ["Video", "Editing"],
     link: "https://kdenlive.org/",
-    image: "https://placehold.co/200x200/527EB2/white?text=KD",
+    image: "/icons/kdenlive.png",
     alternativesTo: ["Adobe Premiere Pro", "Final Cut Pro"],
   },
 
@@ -115,7 +115,7 @@ const PROGRAMS = [
     description: "Open source team communication platform with real-time chat, video conferencing, and file sharing.",
     tags: ["Communication", "Collaboration", "Chat"],
     link: "https://rocket.chat/",
-    image: "https://placehold.co/200x200/F5455C/white?text=RC",
+    image: "/icons/rocketchat.png",
     alternativesTo: ["Slack", "Microsoft Teams"],
   },
   {
@@ -123,7 +123,7 @@ const PROGRAMS = [
     description: "Open source platform for secure collaboration across the entire software development lifecycle.",
     tags: ["Communication", "Collaboration"],
     link: "https://mattermost.com/",
-    image: "https://placehold.co/200x200/0058CC/white?text=MM",
+    image: "/icons/mattermost.png",
     alternativesTo: ["Slack", "Microsoft Teams"],
   },
   {
@@ -131,7 +131,7 @@ const PROGRAMS = [
     description: "Secure, fully featured, and completely free video conferencing software.",
     tags: ["Video", "Communication", "Conferencing"],
     link: "https://jitsi.org/",
-    image: "https://placehold.co/200x200/1D76BA/white?text=JM",
+    image: "/icons/jitsi.png",
     alternativesTo: ["Zoom", "Google Meet", "Microsoft Teams"],
   },
   {
@@ -139,7 +139,7 @@ const PROGRAMS = [
     description: "A free email application that's easy to set up and customize.",
     tags: ["Email", "Communication"],
     link: "https://www.thunderbird.net/",
-    image: "https://placehold.co/200x200/0A84FF/white?text=TB",
+    image: "/icons/thunderbird.png",
     alternativesTo: ["Microsoft Outlook", "Apple Mail"],
   },
 
@@ -149,7 +149,7 @@ const PROGRAMS = [
     description: "A lightweight but powerful source code editor with built-in support for JavaScript, TypeScript and Node.js.",
     tags: ["Development", "IDE", "Editor"],
     link: "https://code.visualstudio.com/",
-    image: "https://placehold.co/200x200/007ACC/white?text=VSC",
+    image: "/icons/vscode.png",
     alternativesTo: ["Sublime Text", "Atom"],
   },
   {
@@ -157,7 +157,7 @@ const PROGRAMS = [
     description: "A complete DevOps platform delivered as a single application for version control and CI/CD.",
     tags: ["Development", "DevOps", "Git"],
     link: "https://about.gitlab.com/",
-    image: "https://placehold.co/200x200/FC6D26/white?text=GL",
+    image: "/icons/gitlab.png",
     alternativesTo: ["GitHub", "Bitbucket"],
   },
   {
@@ -165,7 +165,7 @@ const PROGRAMS = [
     description: "An open platform for developing, shipping, and running applications in containers.",
     tags: ["Development", "DevOps", "Containers"],
     link: "https://www.docker.com/",
-    image: "https://placehold.co/200x200/2496ED/white?text=DK",
+    image: "/icons/docker.png",
     alternativesTo: ["Podman"],
   },
   {
@@ -173,7 +173,7 @@ const PROGRAMS = [
     description: "A powerful, open source object-relational database system.",
     tags: ["Database", "Development"],
     link: "https://www.postgresql.org/",
-    image: "https://placehold.co/200x200/336791/white?text=PG",
+    image: "/icons/postgresql.png",
     alternativesTo: ["Oracle Database", "Microsoft SQL Server"],
   },
   {
@@ -181,7 +181,7 @@ const PROGRAMS = [
     description: "A community-developed, commercially supported fork of the MySQL relational database.",
     tags: ["Database", "Development"],
     link: "https://mariadb.org/",
-    image: "https://placehold.co/200x200/003545/white?text=MD",
+    image: "/icons/mariadb.png",
     alternativesTo: ["MySQL", "Oracle Database"],
   },
 
@@ -191,7 +191,7 @@ const PROGRAMS = [
     description: "The leading Linux distribution for desktops, servers, and the cloud.",
     tags: ["Operating System", "Linux"],
     link: "https://ubuntu.com/",
-    image: "https://placehold.co/200x200/E95420/white?text=UB",
+    image: "/icons/ubuntu.png",
     alternativesTo: ["Windows", "macOS"],
   },
   {
@@ -199,7 +199,7 @@ const PROGRAMS = [
     description: "An innovative, free, and open source platform for hardware, clouds, and containers.",
     tags: ["Operating System", "Linux"],
     link: "https://getfedora.org/",
-    image: "https://placehold.co/200x200/294172/white?text=FD",
+    image: "/icons/fedora.png",
     alternativesTo: ["Windows", "macOS"],
   },
 
@@ -209,7 +209,7 @@ const PROGRAMS = [
     description: "A cross-platform community-driven port of the Windows application Keepass Password Safe.",
     tags: ["Security", "Password Manager"],
     link: "https://keepassxc.org/",
-    image: "https://placehold.co/200x200/6CAC4D/white?text=KP",
+    image: "/icons/keepassxc.png",
     alternativesTo: ["LastPass", "1Password", "Bitwarden"],
   },
   {
@@ -217,7 +217,7 @@ const PROGRAMS = [
     description: "Open source password management solution for individuals, teams, and business organizations.",
     tags: ["Security", "Password Manager"],
     link: "https://bitwarden.com/",
-    image: "https://placehold.co/200x200/175DDC/white?text=BW",
+    image: "/icons/bitwarden.png",
     alternativesTo: ["LastPass", "1Password"],
   },
 
@@ -227,7 +227,7 @@ const PROGRAMS = [
     description: "A fast, privacy-focused browser from Mozilla.",
     tags: ["Browser", "Privacy"],
     link: "https://www.mozilla.org/firefox/",
-    image: "https://placehold.co/200x200/FF6611/white?text=FF",
+    image: "/icons/firefox.png",
     alternativesTo: ["Google Chrome", "Microsoft Edge"],
   },
   {
@@ -235,7 +235,7 @@ const PROGRAMS = [
     description: "A privacy-focused browser that blocks ads and trackers by default.",
     tags: ["Browser", "Privacy"],
     link: "https://brave.com/",
-    image: "https://placehold.co/200x200/FB542B/white?text=BR",
+    image: "/icons/brave.png",
     alternativesTo: ["Google Chrome", "Safari"],
   },
 
@@ -245,7 +245,7 @@ const PROGRAMS = [
     description: "Simple, open-source, lightweight analytics alternative to Google Analytics.",
     tags: ["Analytics", "Privacy"],
     link: "https://plausible.io/",
-    image: "https://placehold.co/200x200/5850EC/white?text=PL",
+    image: "/icons/plausible.png",
     alternativesTo: ["Google Analytics"],
   },
   {
@@ -253,7 +253,7 @@ const PROGRAMS = [
     description: "Free project management application for managing projects and creating schedules.",
     tags: ["Project Management", "Productivity"],
     link: "https://www.ganttproject.biz/",
-    image: "https://placehold.co/200x200/008B8B/white?text=GP",
+    image: "/icons/ganttproject.png",
     alternativesTo: ["Microsoft Project"],
   },
 
@@ -263,7 +263,7 @@ const PROGRAMS = [
     description: "A feature-packed, cross-platform game engine to create 2D and 3D games.",
     tags: ["Game Development", "3D", "2D"],
     link: "https://godotengine.org/",
-    image: "https://placehold.co/200x200/478CBF/white?text=GD",
+    image: "/icons/godot.png",
     alternativesTo: ["Unity", "Unreal Engine"],
   },
 
@@ -273,7 +273,7 @@ const PROGRAMS = [
     description: "An open source note-taking and to-do application with synchronization capabilities.",
     tags: ["Notes", "Productivity"],
     link: "https://joplinapp.org/",
-    image: "https://placehold.co/200x200/1071D3/white?text=JP",
+    image: "/icons/joplin.png",
     alternativesTo: ["Evernote", "OneNote"],
   },
   {
@@ -281,7 +281,7 @@ const PROGRAMS = [
     description: "A powerful knowledge base that works on top of local plain-text Markdown files.",
     tags: ["Notes", "Productivity", "Knowledge Base"],
     link: "https://obsidian.md/",
-    image: "https://placehold.co/200x200/7C3AED/white?text=OB",
+    image: "/icons/obsidian.png",
     alternativesTo: ["Notion", "Roam Research"],
   },
 ];
