@@ -28,7 +28,7 @@ export default function Hero() {
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link 
-            href="#explore"
+            href="#categories"
             className="h-12 px-8 rounded-full bg-primary text-primary-foreground font-medium flex items-center justify-center hover:opacity-90 transition-opacity w-full sm:w-auto"
           >
             Explore Apps

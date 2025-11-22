@@ -7,8 +7,13 @@ import Program from '@/models/Program';
 export async function POST(req: Request) {
   const session = await getServerSession(authOptions);
 
-  if (!session) {
+  if (!session || !session.user?.email) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
+  const allowedEmails = process.env.ALLOWED_EMAILS?.split(',').map(e => e.trim()) || [];
+  if (!allowedEmails.includes(session.user.email)) {
+    return NextResponse.json({ error: 'Forbidden: You do not have permission to add programs.' }, { status: 403 });
   }
 
   try {
