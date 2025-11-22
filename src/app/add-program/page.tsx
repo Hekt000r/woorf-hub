@@ -137,7 +137,6 @@ export default function AddProgramPage() {
               Website Link
             </label>
             <input
-              type="url"
               name="link"
               id="link"
               required

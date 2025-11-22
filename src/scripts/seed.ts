@@ -11,7 +11,7 @@ const PROGRAMS = [
     description: "A powerful office suite – its clean interface and feature-rich tools help you unleash your creativity.",
     tags: ["Office", "Productivity"],
     link: "https://www.libreoffice.org/",
-    image: "/icons/libreoffice.png",
+    image: "https://upload.wikimedia.org/wikipedia/commons/a/a9/LibreOffice_7.5_Main_Icon.png",
     alternativesTo: ["Microsoft Word", "Word", "Microsoft Office", "Excel", "PowerPoint"],
   },
   {

@@ -44,6 +44,7 @@ const getCategoryIcon = (category: string): LucideIcon => {
     "Painting": Palette,
     "Art": Palette,
     "Modeling": Box,
+    "Games": Gamepad2, 
   };
   
   return iconMap[category] || Settings;
