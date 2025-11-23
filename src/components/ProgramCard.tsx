@@ -19,7 +19,7 @@ export default function ProgramCard({ program }: ProgramCardProps) {
               src={program.image}
               alt={program.name}
               fill
-              className="object-contain p-1"
+              className="object-contain p-1 rounded-xl"
             />
           </div>
           <div className="p-2 rounded-full bg-muted group-hover:bg-primary/10 group-hover:text-primary transition-colors">

@@ -5,7 +5,15 @@ import {
   FileText, Palette, Box, Video, Headphones, 
   MessageSquare, Database, Code, Monitor, Lock, 
   Globe, PieChart, Gamepad2, StickyNote, Settings,
-  LucideIcon
+  LucideIcon,
+  Gamepad,
+  BriefcaseBusiness,
+  Cloud,
+  GraduationCap,
+  Mail,
+  Network,
+  NotebookPen,
+  FolderGit2
 } from "lucide-react";
 import ProgramCard from "./ProgramCard";
 import { IProgram } from "@/models/Program";
@@ -44,7 +52,14 @@ const getCategoryIcon = (category: string): LucideIcon => {
     "Painting": Palette,
     "Art": Palette,
     "Modeling": Box,
-    "Games": Gamepad2, 
+    "Gaming": Gamepad, 
+    "Business": BriefcaseBusiness,
+    "Cloud": Cloud,
+    "Education": GraduationCap,
+    "Email": Mail,
+    "Networking": Network,
+    "Notes": NotebookPen,
+    "Project Management": FolderGit2
   };
   
   return iconMap[category] || Settings;
