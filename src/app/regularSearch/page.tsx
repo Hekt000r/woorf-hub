@@ -26,7 +26,7 @@ async function getSearchResults(query: string) {
         must: terms.map(term => ({
           text: {
             query: term,
-            path: "alternativesTo",
+            path: "name",
             fuzzy: {
               maxEdits: 2,
               prefixLength: 2
@@ -45,7 +45,7 @@ async function getSearchResults(query: string) {
               {
                 text: {
                   query: stripped,
-                  path: "alternativesTo",
+                  path: "name",
                   fuzzy: {
                     maxEdits: 2,
                     prefixLength: 2
@@ -117,7 +117,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
             </p>
           ) : (
             <p className="text-muted-foreground">
-              Please enter a search term to find alternatives.
+              Please enter a search term.
             </p>
           )}
         </div>

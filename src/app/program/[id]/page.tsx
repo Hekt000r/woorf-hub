@@ -5,6 +5,7 @@ import Program from "@/models/Program";
 import connectDB from "@/lib/db";
 import Navbar from "@/components/Navbar";
 import PrimaryButton from "@/components/PrimaryButton";
+import ProgramCard from "@/components/ProgramCard";
 
 interface ProgramPageProps {
   params: Promise<{
@@ -27,6 +28,12 @@ export default async function ProgramPage({ params }: ProgramPageProps) {
   if (!program) {
     notFound();
   }
+
+  // Fetch similar programs (same category, excluding current program)
+  const similarPrograms = await Program.find({
+    "tags.0": program.tags[0],
+    _id: { $ne: program._id }
+  }).limit(6);
 
   return (
     <main className="min-h-screen bg-background text-foreground pt-20">
@@ -100,6 +107,18 @@ export default async function ProgramPage({ params }: ProgramPageProps) {
           </div>
         </div>
       </div>
+
+      {/* Similar Programs Section */}
+      {similarPrograms.length > 0 && (
+        <div className="container mx-auto px-4 py-12 max-w-6xl border-t border-border">
+          <h2 className="text-3xl font-bold mb-8 text-center">Similar Programs</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {similarPrograms.map((similar) => (
+              <ProgramCard key={similar._id.toString()} program={similar} />
+            ))}
+          </div>
+        </div>
+      )}
     </main>
   );
 }

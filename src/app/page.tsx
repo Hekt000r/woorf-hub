@@ -4,6 +4,7 @@ import ProgramList from "@/components/ProgramList";
 import CategorySection from "@/components/CategorySection";
 import connectDB from "@/lib/db";
 import Program from "@/models/Program";
+import RegularSearch from "@/components/RegularSearch";
 
 async function getPrograms() {
   await connectDB();
@@ -21,6 +22,7 @@ export default async function Home() {
       <SearchSection />
       <CategorySection programs={JSON.parse(JSON.stringify(programs))} />
       <ProgramList />
+      <RegularSearch/>
       
       <footer className="py-12 border-t border-border bg-muted/20">
         <div className="container mx-auto px-4 text-center text-muted-foreground text-sm">
