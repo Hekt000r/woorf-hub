@@ -1,6 +1,6 @@
 /***********
  * /api/search
- * 
+ *
  * Params:
  * query: Term to search for
  ***********/
@@ -9,7 +9,6 @@ import connectDB from "@/lib/db";
 import Program from "@/models/Program";
 import { NextRequest, NextResponse } from "next/server";
 
-
 async function getSearchResults(query: string) {
   await connectDB();
 
@@ -17,7 +16,10 @@ async function getSearchResults(query: string) {
 
   // Variants of query for better fuzzy matching
   const stripped = query.replace(/\s+/g, ""); // "photo shop" → "photoshop"
-  const terms = query.trim().split(/\s+/).filter(t => t.length > 0);
+  const terms = query
+    .trim()
+    .split(/\s+/)
+    .filter((t) => t.length > 0);
 
   let atlasResults: any[] = [];
 
@@ -25,17 +27,17 @@ async function getSearchResults(query: string) {
     // Construct the "AND" clause for the original terms
     const andClause = {
       compound: {
-        must: terms.map(term => ({
+        must: terms.map((term) => ({
           text: {
             query: term,
             path: "name",
             fuzzy: {
               maxEdits: 2,
-              prefixLength: 2
-            }
-          }
-        }))
-      }
+              prefixLength: 2,
+            },
+          },
+        })),
+      },
     };
 
     atlasResults = await Program.aggregate([
@@ -50,13 +52,13 @@ async function getSearchResults(query: string) {
                   path: "name",
                   fuzzy: {
                     maxEdits: 2,
-                    prefixLength: 2
-                  }
-                }
-              }
+                    prefixLength: 2,
+                  },
+                },
+              },
             ],
-            minimumShouldMatch: 1
-          }
+            minimumShouldMatch: 1,
+          },
         },
       },
       { $limit: 50 },
@@ -66,24 +68,40 @@ async function getSearchResults(query: string) {
   }
 
   // If Atlas Search works, return results immediately
- return atlasResults;
-
+  return atlasResults;
 }
 
 export async function POST(req: NextRequest) {
-  const query = await req.json();
+  let queryList: string[];
 
-  if (!query) {
-    return NextResponse.json({ error: "Query is required" }, { status: 400 })
+  try {
+    const body = await req.json();
+    if (!body || !Array.isArray(body)) {
+      return NextResponse.json({ error: "queryList must be an array" }, { status: 400 });
+    }
+    queryList = body;
+  } catch (err) {
+    return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
   }
 
-  const response = await getSearchResults(query)
+  // Process each query safely
+  const responses = await Promise.all(
+    queryList.map(async (query) => {
+      try {
+        const res = await getSearchResults(query);
+        return res || null;
+      } catch (err) {
+        console.error("Error fetching search result for:", query, err);
+        return null;
+      }
+    })
+  );
 
-  console.log(response)
+  const response = responses.filter(Boolean);
 
-  if (!response) {
-    return NextResponse.json({ error: "Not Found"}, { status: 404 })
+  if (response.length === 0) {
+    return NextResponse.json({ error: "Not Found" }, { status: 404 });
   }
 
-  return NextResponse.json(response)
+  return NextResponse.json(response);
 }
