@@ -29,8 +29,10 @@ const limiter = new LRUCache({
 const AI_API_KEY = process.env.WOORF_AI_KEY;
 
 const searchAPIURL = `${
-  process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"
+  process.env.BASE_URL || "http://localhost:3000"
 }/api/AI-Tool-DBSearch`;
+
+console.log(process.env.BASE_URL)
 
 // functions
 
