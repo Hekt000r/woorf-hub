@@ -123,8 +123,8 @@ export default function AIFinderPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8 opacity-60">
             {[
               "Video editor like Premiere",
-              "Notion alternative self-hosted",
-              "Lightweight PDF reader",
+              "Privacy-focused Google Chrome alternatives",
+              "Alternatives to Adobe Photoshop",
             ].map((suggestion) => (
               <button
                 key={suggestion}
