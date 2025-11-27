@@ -5,6 +5,7 @@ import CategorySection from "@/components/CategorySection";
 import connectDB from "@/lib/db";
 import Program from "@/models/Program";
 import RegularSearch from "@/components/RegularSearch";
+import AISection from "@/components/AISection";
 
 async function getPrograms() {
   await connectDB();
@@ -19,6 +20,7 @@ export default async function Home() {
     <main className="min-h-screen bg-background selection:bg-primary/20 selection:text-primary">
 
       <Hero />
+      <AISection/>
       <SearchSection />
       <CategorySection programs={JSON.parse(JSON.stringify(programs))} />
       <ProgramList />

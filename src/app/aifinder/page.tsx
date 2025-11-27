@@ -8,24 +8,25 @@ import {
   SendHorizonal,
 } from "lucide-react";
 import PrimaryButton from "@/components/PrimaryButton";
+import axios from "axios";
+import ReactMarkdown from "react-markdown";
+import "@/../public/markdown.css"
 
 export default function AIFinderPage() {
   const [query, setQuery] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
   const [response, setResponse] = useState<string | null>(null);
 
-  const handleGenerate = () => {
+  const handleGenerate = async () => {
     if (!query.trim()) return;
 
     setIsGenerating(true);
 
-    // Simulate API delay
-    setTimeout(() => {
-      setResponse(
-        "This is a simulated response. In the real implementation, this would be the AI's recommendation based on your input."
-      );
-      setIsGenerating(false);
-    }, 1500);
+    const axiosRes = await axios.get(`/api/AI-find?prompt=${query}`);
+
+    setResponse(axiosRes.data.finalResponse);
+
+    setIsGenerating(false);
   };
 
   return (
@@ -108,9 +109,10 @@ export default function AIFinderPage() {
               </div>
               <div className="space-y-2">
                 <h3 className="text-lg font-semibold">AI Recommendation</h3>
-                <p className="text-muted-foreground leading-relaxed">
-                  {response}
-                </p>
+                
+                <div className="text-muted-foreground leading-relaxed prose prose-indigo dark:prose-invert markdown">
+                  <ReactMarkdown>{response}</ReactMarkdown>
+                </div>
               </div>
             </div>
           </div>
