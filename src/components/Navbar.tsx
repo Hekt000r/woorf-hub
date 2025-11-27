@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Search, Info, Wrench } from "lucide-react";
+import { Home, Search, Info, Wrench, icons, WandSparkles } from "lucide-react";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -16,6 +16,7 @@ export default function Navbar() {
 
   const navItems = [
     { name: "Home", path: "/", icon: Home },
+    { name: "AI Finder", path: "/aifinder", icon: WandSparkles },
     { name: "About", path: "/about", icon: Info },
   ];
 

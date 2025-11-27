@@ -64,35 +64,8 @@ async function getSearchResults(query: string) {
   }
 
   // If Atlas Search works, return results immediately
-  if (atlasResults.length > 0) return atlasResults;
+ return atlasResults;
 
-  // -------------------------------
-  // 2. Fallback REGEX search
-  // -------------------------------
-  const fuzzy = new RegExp(stripped.split("").join(".*"), "i");
-
-  const regexes = [
-    new RegExp(query, "i"),
-    new RegExp(stripped, "i"),
-    fuzzy
-  ];
-
-  const conditions = regexes.map(regex => ({
-    $or: [
-      { name: { $regex: regex } },
-      { alternativesTo: { $regex: regex } },
-      { alternativesTo: { $in: [regex] } },
-    ]
-  }));
-
-  const regexResults = await Program.find({ $or: conditions });
-
-  // Dedupe
-  const unique = Array.from(
-    new Map(regexResults.map(p => [p._id.toString(), p])).values()
-  );
-
-  return unique;
 }
 
 
