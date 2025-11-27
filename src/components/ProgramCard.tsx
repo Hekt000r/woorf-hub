@@ -18,6 +18,7 @@ export default function ProgramCard({ program }: ProgramCardProps) {
             <Image
               src={program.image}
               alt={program.name}
+              fill
               className="object-contain p-1 rounded-xl"
             />
           </div>
