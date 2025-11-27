@@ -15,7 +15,7 @@ export default function ProgramCard({ program }: ProgramCardProps) {
       <div className="flex flex-col h-full">
         <div className="flex items-start justify-between mb-6">
           <div className="relative w-16 h-16 rounded-xl overflow-hidden bg-white/5 p-2 border border-white/10">
-            <img
+            <Image
               src={program.image}
               alt={program.name}
               className="object-contain p-1 rounded-xl"
