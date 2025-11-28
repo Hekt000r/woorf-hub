@@ -1,32 +1,19 @@
 @import "tailwindcss";
 
+
 :root {
-  /* Light mode - Clean and crisp */
-  --background: #ffffff;
-  --foreground: #0f172a;
-  --primary: #2563eb;
+  /* Dark mode - Premium and deep */
+  --background: #020617; /* Slate 950 - Very dark blue/black */
+  --foreground: #f8fafc; /* Slate 50 */
+  --primary: #3b82f6; /* Blue 500 */
   --primary-foreground: #ffffff;
-  --muted: #f1f5f9;
-  --muted-foreground: #64748b;
-  --card: #ffffff;
-  --card-foreground: #0f172a;
-  --border: #e2e8f0;
+  --muted: #0f172a; /* Slate 900 */
+  --muted-foreground: #94a3b8; /* Slate 400 */
+  --card: #0f172a; /* Slate 900 */
+  --card-foreground: #f8fafc;
+  --border: #1e293b; /* Slate 800 */
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    /* Dark mode - Premium and deep */
-    --background: #020617; /* Slate 950 - Very dark blue/black */
-    --foreground: #f8fafc; /* Slate 50 */
-    --primary: #3b82f6; /* Blue 500 */
-    --primary-foreground: #ffffff;
-    --muted: #0f172a; /* Slate 900 */
-    --muted-foreground: #94a3b8; /* Slate 400 */
-    --card: #0f172a; /* Slate 900 */
-    --card-foreground: #f8fafc;
-    --border: #1e293b; /* Slate 800 */
-  }
-}
 
 @theme inline {
   --color-background: var(--background);
