@@ -1,81 +1,78 @@
-/******************
- * /api/AI-find
- *
- * AI Find function, uses AI (GroqCloud) to search for
- * programs fitting to user's input, then searches through
- * woorf database to ensure program is present in DB.
- *
- ******************/
-
-/* Imports */
-
+export const dynamic = 'force-dynamic';
 import { NextRequest, NextResponse } from "next/server";
-import { LRUCache } from "lru-cache";
-import axios from "axios";
 import { groq } from "@ai-sdk/groq";
 import { generateText } from "ai";
+// Import the search logic directly to avoid Axios/Localhost issues
+import { getSearchResults } from "../AI-Tool-DBSearch/route"; 
 
-// config:
 
-// rate-limiter
-
-const limiter = new LRUCache({
-  max: 500, // max number of tracked IP's
-  ttl: 60 & 1000, // 1 minute
-});
-
-// AI API setup
-
-const AI_API_KEY = process.env.WOORF_AI_KEY;
-
-const searchAPIURL = `${
-  process.env.BASE_URL || "http://localhost:3000"
-}/api/AI-Tool-DBSearch`;
-
-console.log(process.env.BASE_URL)
-
-// functions
 
 async function QueryGenerate(prompt: string) {
-  // Creates an array to be used to query MongoDB
   const response = await generateText({
     model: groq(`llama-3.3-70b-versatile`),
-    system: `Find free-and-open-source programs that match the user's request. MAKE SURE they are open-source, and return a javascript array of the programs. Make SURE the array syntax is valid. And do not output anything else other than the array. Do NOT use formatting charactes like /n and backwards slash. Return a maximum of 7 results, but try to get 7 if possible. If possible, make sure all software is cross-platform for Linux, Windows, and MacOS.`,
+    system: `Return ONLY a valid JSON array of strings (names of open-source programs). No markdown, no backticks, no text before or after. Max 7 results. Example: ["Brave", "GIMP", "Krita"]`,
     prompt: prompt,
   });
-
-  return response.text;
+  // Clean up potential markdown formatting just in case
+  return response.text.replace(/```json|```/g, "").trim();
 }
 
 async function GenerateResponse(DBInput: string) {
   const response = await generateText({
     model: groq(`llama-3.3-70b-versatile`),
-    system: `You are an AI assistant for a website called Woorf, a hub for free-and-open-source software. You are provided with a list of Programs in JSON from a database [from the user's prompt], and you need to finalize the response by searching for more information and formatting the final response. Add links to official websites. Keep your message short and only speak about the programs itself, no need to talk about why FOSS is good. Try and use every entry from the DB. Ignore irrelevant/ unrelated programs`,
-    prompt: DBInput,
+    system: `You are a FOSS assistant for Woorf. Use the provided JSON database data to answer. Add official links. If the list is empty, apologize and say no programs were found in the database.`,
+    prompt: `Database Data: ${DBInput}`,
   });
-
-  return response.text
+  return response.text;
 }
 
 export async function GET(req: NextRequest) {
   const prompt = req.nextUrl.searchParams.get("prompt");
+  console.log("🚀 STEP 1: Received Prompt:", prompt);
 
-  if (!prompt)
-    return NextResponse.json({ status: 403, error: "No prompt provided" });
+  if (!prompt) return NextResponse.json({ status: 403, error: "No prompt" });
 
-  // Step 1.: QueryGenerate an array of programs to search in MongoDB
+  try {
+    // 1. Get names from AI
+    const queryText = await QueryGenerate(prompt);
+    console.log("🤖 STEP 2: AI Suggested Programs:", queryText);
 
-  const queryText = await QueryGenerate(prompt);
+    let queryList;
+    try {
+        queryList = JSON.parse(queryText);
+    } catch (e) {
+        console.error("❌ PARSE ERROR: AI returned invalid JSON. Trying to clean...");
+        const cleaned = queryText.replace(/```json|```/g, "").trim();
+        queryList = JSON.parse(cleaned);
+    }
+    console.log("📋 STEP 3: Parsed Query List:", queryList);
 
-  // Step 2.: Query MongoDB and search for programs
-  const response = await axios.post(searchAPIURL, JSON.parse(queryText));
-  const responseData = response.data;
+    // 2. Query MongoDB
+    const results = await Promise.all(
+      queryList.map(async (query: string) => {
+        const res = await getSearchResults(query);
+        console.log(`🔍 Searching DB for "${query}"... Found: ${res?.length || 0} docs`);
+        return res;
+      })
+    );
 
-  // Step 3.: Generate final response with links from MongoDB
-  console.table(responseData);
+    // 3. Flatten
+    const responseData = results.flat().filter(Boolean);
+    console.log("📊 STEP 4: Total flattened results from DB:", responseData.length);
+    
+    if (responseData.length > 0) {
+        console.log("✅ SAMPLE DATA:", JSON.stringify(responseData[0]).substring(0, 100));
+    } else {
+        console.warn("⚠️ WARNING: Database returned ZERO results for all suggested programs.");
+    }
 
-  const finalResponse = await GenerateResponse(JSON.stringify(responseData, null, 2));
+    // 4. Final AI Response
+    const finalResponse = await GenerateResponse(JSON.stringify(responseData));
+    console.log("🏁 STEP 5: Final AI Output Generated.");
 
-
-  return NextResponse.json({ status: 200, finalResponse });
+    return NextResponse.json({ status: 200, finalResponse });
+  } catch (error: any) {
+    console.error("💥 CRITICAL ROUTE ERROR:", error);
+    return NextResponse.json({ status: 500, error: error.message });
+  }
 }

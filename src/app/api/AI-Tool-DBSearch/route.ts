@@ -1,74 +1,43 @@
 /***********
- * /api/search
- *
- * Params:
- * query: Term to search for
+ * /api/AI-Tool-DBSearch/route.ts
  ***********/
 
 import connectDB from "@/lib/db";
 import Program from "@/models/Program";
 import { NextRequest, NextResponse } from "next/server";
+import mongoose from "mongoose"; // 1. Added this import
 
-async function getSearchResults(query: string) {
+export async function getSearchResults(query: string) {
+  // Ensure we are connected
   await connectDB();
+  
+  // 2. Safe debugging - use optional chaining (?.) to prevent "undefined" crashes
+  const dbName = mongoose.connection?.name || "Unknown DB";
+  const colName = Program.collection.name;
+  
+  // This is the most important log for your demo!
+  let totalInDb = 0;
+  try {
+    totalInDb = await Program.countDocuments();
+  } catch (e) {
+    console.error("Failed to count documents:", e);
+  }
+  
+  console.log(`--- DB DEBUG ---`);
+  console.log(`Connected to: [${dbName}]`);
+  console.log(`Collection: [${colName}]`);
+  console.log(`Total Docs in DB: ${totalInDb}`);
+  console.log(`Searching for: "${query}"`);
 
   if (!query.trim()) return [];
 
-  // Variants of query for better fuzzy matching
-  const stripped = query.replace(/\s+/g, ""); // "photo shop" → "photoshop"
-  const terms = query
-    .trim()
-    .split(/\s+/)
-    .filter((t) => t.length > 0);
+  // 3. REGEX FALLBACK (Safest for demo)
+  const results = await Program.find({ 
+    name: { $regex: new RegExp(query.trim(), 'i') } 
+  }).limit(3).lean();
 
-  let atlasResults: any[] = [];
-
-  try {
-    // Construct the "AND" clause for the original terms
-    const andClause = {
-      compound: {
-        must: terms.map((term) => ({
-          text: {
-            query: term,
-            path: "name",
-            fuzzy: {
-              maxEdits: 2,
-              prefixLength: 2,
-            },
-          },
-        })),
-      },
-    };
-
-    atlasResults = await Program.aggregate([
-      {
-        $search: {
-          compound: {
-            should: [
-              andClause,
-              {
-                text: {
-                  query: stripped,
-                  path: "name",
-                  fuzzy: {
-                    maxEdits: 2,
-                    prefixLength: 2,
-                  },
-                },
-              },
-            ],
-            minimumShouldMatch: 1,
-          },
-        },
-      },
-      { $limit: 50 },
-    ]);
-  } catch (err) {
-    console.warn("Atlas Search failed. Falling back to regex:", err);
-  }
-
-  // If Atlas Search works, return results immediately
-  return atlasResults;
+  console.log(`Matches for "${query}": ${results.length}`);
+  return results;
 }
 
 export async function POST(req: NextRequest) {
@@ -89,18 +58,22 @@ export async function POST(req: NextRequest) {
     queryList.map(async (query) => {
       try {
         const res = await getSearchResults(query);
-        return res || null;
+        return res || []; // Return empty array instead of null for better flattening
       } catch (err) {
         console.error("Error fetching search result for:", query, err);
-        return null;
+        return [];
       }
     })
   );
 
-  const response = responses.filter(Boolean);
+  // 4. Flatten the results so it's a clean list of program objects
+  const response = responses.flat().filter(Boolean);
+
+  console.log(`--- FINAL POST RESPONSE: Sending ${response.length} items to AI ---`);
 
   if (response.length === 0) {
-    return NextResponse.json({ error: "Not Found" }, { status: 404 });
+    // If you want to avoid a 404 error during the demo, return an empty 200 instead
+    return NextResponse.json({ error: "Not Found", data: [] }, { status: 404 });
   }
 
   return NextResponse.json(response);
